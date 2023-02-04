@@ -12,12 +12,12 @@ public class ModSetup {
     public static void setup() {
         IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(EmissionEvents::onWorldTick);
+        bus.addListener(EmissionEvents::placeFire);
     }
 
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-
+            Messages.register();
         });
-        Messages.register();
     }
 }

@@ -14,7 +14,7 @@ public class EmissionConfig {
 
         CHUNK_MIN_EMISSIONS = SERVER_BUILDER
                 .comment("Minimum Amount of emissions in a chunk")
-                .defineInRange("minEmissions", 10, 0, Integer.MAX_VALUE);
+                .defineInRange("minEmissions", 0, 0, Integer.MAX_VALUE);
         CHUNK_MAX_EMISSIONS = SERVER_BUILDER
                 .comment("Maximum Amount of emissions in a chunk (relative to minEmissions)")
                 .defineInRange("maxEmissions", 100, 1, Integer.MAX_VALUE);

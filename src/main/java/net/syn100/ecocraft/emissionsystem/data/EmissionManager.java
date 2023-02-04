@@ -39,8 +39,7 @@ public class EmissionManager extends SavedData {
         ChunkPos chunkPos = new ChunkPos(pos);
         return emissionsMap
                 .computeIfAbsent(chunkPos, cp ->
-                    new Emissions(random.nextInt( EmissionConfig.CHUNK_MAX_EMISSIONS.get() ) +
-                            EmissionConfig.CHUNK_MIN_EMISSIONS.get())
+                    new Emissions(EmissionConfig.CHUNK_MIN_EMISSIONS.get())
                 );
     }
 
