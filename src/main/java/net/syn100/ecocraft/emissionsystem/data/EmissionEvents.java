@@ -8,16 +8,17 @@ import net.minecraftforge.event.level.BlockEvent;
 
 public class EmissionEvents {
 
-    /**
+    // FOUND A BETTER WAY TO DO THIS USING MIXINS.
+    /* *Deprecated*
      * This method is triggered when a fire block spreads to a nearby block
      * @param event When a block's neighbor is notified/updated
-     */
     public static void placeFire(BlockEvent.NeighborNotifyEvent event) {
         if (event.getState().getBlock() == Blocks.FIRE) {
             EmissionManager manager = EmissionManager.get((Level) event.getLevel());
             manager.increaseEmissions(event.getPos(), 1);
         }
     }
+    */
 
     /**
      * This method is called every tick in order to sync the chunk's emissions level
