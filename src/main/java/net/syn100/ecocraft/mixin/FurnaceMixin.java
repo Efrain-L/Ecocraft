@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * (You can also find the config for this in src/main/resources/META-INF/accesstransformer.cfg)
  */
 @Mixin(AbstractFurnaceBlockEntity.class)
-public class FurnaceMixin {
+public abstract class FurnaceMixin {
     /**
      * Using a counter to keep track of ticks, otherwise the furnace will
      * increase emissions ridiculously fast.
@@ -32,7 +32,7 @@ public class FurnaceMixin {
     @Inject(method = "serverTick", at = @At("RETURN"))
     private static void serverTick(Level p_155014_, BlockPos p_155015_, BlockState p_155016_, AbstractFurnaceBlockEntity p_155017_, CallbackInfo info) {
         // Currently set to increase emissions roughly each second or so
-        if ( p_155017_.isLit() && ++counter >= 40) {
+        if ( p_155017_.isLit() && ++counter > 40) {
             EmissionManager manager = EmissionManager.get(p_155014_);
             manager.increaseEmissions(p_155015_, 1);
             // reset counter

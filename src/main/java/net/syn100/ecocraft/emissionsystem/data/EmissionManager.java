@@ -17,12 +17,10 @@ import net.syn100.ecocraft.setup.Messages;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class EmissionManager extends SavedData {
 
     private final Map<ChunkPos, Emissions> emissionsMap = new HashMap<>();
-    private final Random random = new Random();
 
     @Nonnull
     public static EmissionManager get(Level level) {
