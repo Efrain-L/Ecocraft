@@ -23,7 +23,6 @@ public abstract class FurnaceMixin {
      * increase emissions ridiculously fast.
      */
     private static int counter = 0;
-
     /**
      * Injecting code into the serverTick method from the AbstractFurnaceBlockEntity class,
      * which should affect all blocks that extend it, like furnaces, smokers, and blast furnaces.

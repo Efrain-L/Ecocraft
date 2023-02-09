@@ -6,7 +6,9 @@
   "mixins": [
     "FireMixin",
     "FurnaceMixin",
-    "CampfireMixin"
+    "CampfireMixin",
+    "LayeredSnowMixin",
+    "IceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
