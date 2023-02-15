@@ -9,7 +9,8 @@
     "CampfireMixin",
     "LayeredSnowMixin",
     "IceMixin",
-    "LeavesMixin"
+    "LeavesMixin",
+    "MinecartFurnaceMixin"
   ],
   "injectors": {
     "defaultRequire": 1
