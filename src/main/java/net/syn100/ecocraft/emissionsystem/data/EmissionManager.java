@@ -79,7 +79,39 @@ public class EmissionManager extends SavedData {
         }
     }
 
+    public float spreadEmissions(BlockPos pos) {
+        Emissions emissions = getEmissionsInternal(pos);
+        // The spreading starts only when the emission in this chunk exceeds this minSpreadingLevel.
+        int minSpreadingLevel = 20; // Aims to prevent infinite spreading loop between chunks
+        float currentEmissions = emissions.getEmissions();
+        float percentSpreadPerTick = (float)0.001; // The percentage of emission to be spread every tick
+
+        if (currentEmissions >= minSpreadingLevel) {
+            float totalEmissionsSpread = currentEmissions * percentSpreadPerTick;
+            // The amount of emission that each adjacent chunk receives
+            float receivedEmissions = totalEmissionsSpread / 9;
+            this.decreaseEmissions(pos, totalEmissionsSpread);
+
+            // Spread to the eight adjacent chunks
+            for(int x=-1;x<=1;x+=1) {
+                for(int z=-1;z<=1;z+=1) {
+                    BlockPos spreadTargetPos = pos.offset(16 * x, 0, 16 * z);
+                    this.increaseEmissions(spreadTargetPos, receivedEmissions);
+                }
+            }
+            // Set dirty is needed to save changes to the chunk
+            setDirty();
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public void tick(Level level) {
+        emissionsMap.forEach((chunkPos, emissions) -> {
+            BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0 ,chunkPos.getMiddleBlockZ());
+            this.spreadEmissions(spreadPos);
+        });
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
                 float chunkEmissions = getEmissions(serverPlayer.blockPosition());
