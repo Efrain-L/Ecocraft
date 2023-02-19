@@ -15,6 +15,7 @@ import net.syn100.ecocraft.emissionsystem.network.PacketSyncEmissionsToClient;
 import net.syn100.ecocraft.setup.Messages;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,7 +109,8 @@ public class EmissionManager extends SavedData {
     }
 
     public void tick(Level level) {
-        emissionsMap.forEach((chunkPos, emissions) -> {
+        ArrayList<ChunkPos> spreadChunkPos = new ArrayList<ChunkPos>(emissionsMap.keySet());
+        spreadChunkPos.forEach(chunkPos -> {
             BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0 ,chunkPos.getMiddleBlockZ());
             this.spreadEmissions(spreadPos);
         });
