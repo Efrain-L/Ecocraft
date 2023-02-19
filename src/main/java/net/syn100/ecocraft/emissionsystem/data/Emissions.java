@@ -1,17 +1,17 @@
 package net.syn100.ecocraft.emissionsystem.data;
 
 public class Emissions {
-    private int emissions;
+    private float emissions;
 
-    public Emissions(int emissions) {
+    public Emissions(float emissions) {
         this.emissions = emissions;
     }
 
-    public int getEmissions() {
+    public float getEmissions() {
         return emissions;
     }
 
-    public void setEmissions(int emissions) {
+    public void setEmissions(float emissions) {
         this.emissions = emissions;
     }
 }

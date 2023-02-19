@@ -7,18 +7,18 @@ import net.syn100.ecocraft.emissionsystem.client.ClientEmissionData;
 import java.util.function.Supplier;
 
 public class PacketSyncEmissionsToClient {
-    private final int chunkEmissions;
+    private final float chunkEmissions;
 
-    public PacketSyncEmissionsToClient(int chunkEmissions) {
+    public PacketSyncEmissionsToClient(float chunkEmissions) {
         this.chunkEmissions = chunkEmissions;
     }
 
     public PacketSyncEmissionsToClient(FriendlyByteBuf buf) {
-        chunkEmissions = buf.readInt();
+        chunkEmissions = buf.readFloat();
     }
 
     public void toBytes(FriendlyByteBuf buf) {
-        buf.writeInt(chunkEmissions);
+        buf.writeFloat(chunkEmissions);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {

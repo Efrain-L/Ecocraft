@@ -41,7 +41,7 @@ public class EmissionManager extends SavedData {
                 );
     }
 
-    public int getEmissions(BlockPos pos) {
+    public float getEmissions(BlockPos pos) {
         Emissions emissions = getEmissionsInternal(pos);
         return emissions.getEmissions();
     }
@@ -50,9 +50,9 @@ public class EmissionManager extends SavedData {
      * Defining this method differently from the tutorial, adding a parameter
      * for the amount to remove from the chunk's emissions value.
      */
-    public int decreaseEmissions(BlockPos pos, int remove) {
+    public float decreaseEmissions(BlockPos pos, float remove) {
         Emissions emissions = getEmissionsInternal(pos);
-        int currentEmissions = emissions.getEmissions();
+        float currentEmissions = emissions.getEmissions();
         if (currentEmissions - remove >= 0) {
             emissions.setEmissions(currentEmissions - remove);
             // Set dirty is needed to save changes to the chunk
@@ -66,9 +66,9 @@ public class EmissionManager extends SavedData {
     /**
      * Same goes for the increase method
      */
-    public int increaseEmissions(BlockPos pos, int add) {
+    public float increaseEmissions(BlockPos pos, float add) {
         Emissions emissions = getEmissionsInternal(pos);
-        int currentEmissions = emissions.getEmissions();
+        float currentEmissions = emissions.getEmissions();
         if (currentEmissions >= 0) {
             emissions.setEmissions(currentEmissions + add);
             // Set dirty is needed to save changes to the chunk
@@ -82,7 +82,7 @@ public class EmissionManager extends SavedData {
     public void tick(Level level) {
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
-                int chunkEmissions = getEmissions(serverPlayer.blockPosition());
+                float chunkEmissions = getEmissions(serverPlayer.blockPosition());
                 Messages.sendToPlayer(new PacketSyncEmissionsToClient(chunkEmissions), serverPlayer);
             }
         });
@@ -96,7 +96,7 @@ public class EmissionManager extends SavedData {
         ListTag list = tag.getList("emissions", Tag.TAG_COMPOUND);
         for (Tag t: list) {
             CompoundTag emissionTag = (CompoundTag) t;
-            Emissions emissions = new Emissions(emissionTag.getInt("emissions"));
+            Emissions emissions = new Emissions(emissionTag.getFloat("emissions"));
             ChunkPos pos = new ChunkPos(emissionTag.getInt("x"), emissionTag.getInt("z"));
             emissionsMap.put(pos, emissions);
         }
@@ -109,7 +109,7 @@ public class EmissionManager extends SavedData {
             CompoundTag emissionTag = new CompoundTag();
             emissionTag.putInt("x", chunkPos.x);
             emissionTag.putInt("z", chunkPos.z);
-            emissionTag.putInt("emissions", emissions.getEmissions());
+            emissionTag.putFloat("emissions", emissions.getEmissions());
             list.add(emissionTag);
         }));
         tag.put("emissions", list);

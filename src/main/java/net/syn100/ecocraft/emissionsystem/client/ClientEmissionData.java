@@ -1,12 +1,12 @@
 package net.syn100.ecocraft.emissionsystem.client;
 
 public class ClientEmissionData {
-    private static int chunkEmissions;
+    private static float chunkEmissions;
 
-    public static void set(int emissions) {
+    public static void set(float emissions) {
         ClientEmissionData.chunkEmissions = emissions;
     }
 
-    public static int getChunkEmissions() { return chunkEmissions; }
+    public static float getChunkEmissions() { return chunkEmissions; }
 
 }
