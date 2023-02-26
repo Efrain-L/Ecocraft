@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.syn100.ecocraft.EcoCraft;
 import net.syn100.ecocraft.emissionsystem.client.EmissionsOverlay;
+import net.syn100.ecocraft.emissionsystem.client.PollutionsOverlay;
 
 @Mod.EventBusSubscriber(modid = EcoCraft.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
@@ -20,5 +21,6 @@ public class ClientSetup {
         @SubscribeEvent
         public static void onRegisterOverlays(RegisterGuiOverlaysEvent event) {
             event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "emissions_overlay", EmissionsOverlay.HUD_EMISSIONS);
+            event.registerAbove(VanillaGuiOverlay.HOTBAR.id(), "pollutions_overlay", PollutionsOverlay.HUD_POLLUTIONS);
         }
 }

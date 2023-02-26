@@ -8,6 +8,7 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.syn100.ecocraft.EcoCraft;
 import net.syn100.ecocraft.emissionsystem.network.PacketSyncEmissionsToClient;
+import net.syn100.ecocraft.emissionsystem.network.PacketSyncPollutionsToClient;
 
 public class Messages {
     private static SimpleChannel INSTANCE;
@@ -29,6 +30,11 @@ public class Messages {
                 .decoder(PacketSyncEmissionsToClient::new)
                 .encoder(PacketSyncEmissionsToClient::toBytes)
                 .consumerMainThread(PacketSyncEmissionsToClient::handle)
+                .add();
+        net.messageBuilder(PacketSyncPollutionsToClient.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(PacketSyncPollutionsToClient::new)
+                .encoder(PacketSyncPollutionsToClient::toBytes)
+                .consumerMainThread(PacketSyncPollutionsToClient::handle)
                 .add();
     }
 
