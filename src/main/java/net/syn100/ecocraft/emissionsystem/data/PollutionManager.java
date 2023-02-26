@@ -87,12 +87,13 @@ public class PollutionManager extends SavedData {
         if (currentPollutions >= minSpreadingLevel) {
             float totalPollutionsSpread = currentPollutions * percentSpreadPerTick;
             // The amount of pollution that each adjacent chunk receives
-            float receivedPollutions = totalPollutionsSpread / 9;
+            float receivedPollutions = totalPollutionsSpread / 8;
             this.decreasePollutions(pos, totalPollutionsSpread);
 
             // Spread to the eight adjacent chunks
             for(int x=-1;x<=1;x+=1) {
                 for(int z=-1;z<=1;z+=1) {
+                    if(x==0 && z==0) continue;
                     BlockPos spreadTargetPos = pos.offset(16 * x, 0, 16 * z);
                     this.increasePollutions(spreadTargetPos, receivedPollutions);
                 }

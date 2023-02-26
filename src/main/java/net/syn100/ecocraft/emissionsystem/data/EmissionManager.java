@@ -90,12 +90,13 @@ public class EmissionManager extends SavedData {
         if (currentEmissions >= minSpreadingLevel) {
             float totalEmissionsSpread = currentEmissions * percentSpreadPerTick;
             // The amount of emission that each adjacent chunk receives
-            float receivedEmissions = totalEmissionsSpread / 9;
+            float receivedEmissions = totalEmissionsSpread / 8;
             this.decreaseEmissions(pos, totalEmissionsSpread);
 
             // Spread to the eight adjacent chunks
             for(int x=-1;x<=1;x+=1) {
                 for(int z=-1;z<=1;z+=1) {
+                    if(x==0 && z==0) continue;
                     BlockPos spreadTargetPos = pos.offset(16 * x, 0, 16 * z);
                     this.increaseEmissions(spreadTargetPos, receivedEmissions);
                 }
