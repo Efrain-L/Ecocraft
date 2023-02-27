@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -23,6 +24,14 @@ import javax.annotation.Nullable;
 public abstract class MobMixin extends LivingEntity {
     private static final float DANGER_THRESHOLD = 500.0f;
     private static final float INCREMENT = 0.00001f; // increased probability of death per tick per emission unit
+
+    // Emissions produced by a mob per second in kg.
+    // To add an entity, use the ID and the emissions value as an entry.
+    private static final Map<String, Float> EMISSIONS_VALUES = Map.ofEntries(
+            Map.entry("minecraft:cow", 0.048F)
+    );
+
+    private static final float DEFAULT_EMISSIONS_VALUE = 0;
 
     @Nullable
     @Shadow
@@ -40,6 +49,17 @@ public abstract class MobMixin extends LivingEntity {
         return (self instanceof Animal || self instanceof WaterAnimal) && !(self instanceof Hoglin);
     }
 
+    /**
+     * Gets the emissions produced by an entity if it is in the map
+     * @return Emissions of an entity in kg/seconds
+     */
+    private float emissionsProduced(){
+        if(EMISSIONS_VALUES.containsKey(this.getEncodeId())){
+            return EMISSIONS_VALUES.get(this.getEncodeId());
+        }
+        return DEFAULT_EMISSIONS_VALUE;
+    }
+
     @Inject(method = "tick", at = @At("HEAD"))
     public void tick(CallbackInfo ignoredUnused) {
         if (this.getLevel().isClientSide() || !this.canDieFromEmissions()) {
@@ -55,5 +75,9 @@ public abstract class MobMixin extends LivingEntity {
                 this.hurt(DamageSource.WITHER, Float.MAX_VALUE);
             }
         }
+
+        // Emissions increase for mobs,
+        // with emissions rate divided by 20 to account for ticks.
+        manager.increaseEmissions(this.blockPosition(), emissionsProduced()/20);
     }
 }
