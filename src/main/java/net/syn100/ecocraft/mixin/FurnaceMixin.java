@@ -18,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Arrays;
+
 /**
  * Using Mixins again, injecting into the Furnace's tick method server-side.
  * This time though, I am using another forge dependency added to the build.gradle file
@@ -27,7 +29,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractFurnaceBlockEntity.class)
 @SuppressWarnings("unused")
 public abstract class FurnaceMixin implements IFurnaceMixin {
-    private static final int DEFAULT_EMISSIONS = 1;
+    // The default emissions is 1.3 times that of coal,
+    // which matches the amount released by wood (the most common furnace fuel).
+    private static final float DEFAULT_EMISSIONS = 4F;
     private static final String BURNING_ITEM_TAG = "EcocraftCurrentFuel";
 
     private static Item prevFuelItem;
@@ -52,11 +56,12 @@ public abstract class FurnaceMixin implements IFurnaceMixin {
         this.currentFuel = currentFuel;
     }
 
-    private static int getEmissions(Item item) {
+    private static float getEmissions(Item item) {
+
         if (item == Items.COAL) {
-            return 1;
+            return 3.15F;
         } else if (item == Items.CHARCOAL) {
-            return 2;
+            return 3.15F;
         } else if (item == Items.LAVA_BUCKET) {
             return 0;
         } else {
@@ -113,8 +118,8 @@ public abstract class FurnaceMixin implements IFurnaceMixin {
             furnace.setCurrentFuel(prevFuelItem);
         }
         // Currently set to increase emissions roughly each second or so
-        // use litTime modulo 40 to get a rough per-furnace counter that fires every 40 ticks
-        if ( abstractFurnace.isLit() && furnace.getLitTime() % 40 == 0) {
+        // use litTime modulo 20 to get a rough per-furnace counter that fires every 20 ticks
+        if ( abstractFurnace.isLit() && furnace.getLitTime() % 20 == 0) {
             System.out.println("Increasing emissions for fuel: " + furnace.getCurrentFuel());
             EmissionManager manager = EmissionManager.get(p_155014_);
             manager.increaseEmissions(p_155015_, getEmissions(furnace.getCurrentFuel()));

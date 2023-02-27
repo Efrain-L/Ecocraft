@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import java.lang.Math;
 
 /**
  * Mixins basically inject new code into methods/classes from the game
@@ -24,6 +25,7 @@ public abstract class FireMixin {
     @Inject(method = "tick", at = @At(value = "HEAD"))
     public void tick(BlockState p_221160_, ServerLevel p_221161_, BlockPos p_221162_, RandomSource p_221163_, CallbackInfo info) {
         EmissionManager manager = EmissionManager.get(p_221161_);
-        manager.increaseEmissions(p_221162_, 1);
+        // Random increase from 12-16 for kg
+        manager.increaseEmissions(p_221162_, (float)(12+Math.random()*5));
     }
 }
