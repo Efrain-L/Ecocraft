@@ -11,8 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecartFurnace.class)
 public abstract class MinecartFurnaceMixin extends AbstractMinecart {
-    private static int counter = 0;
-    private static final int EMISSIONS = 1;
+    @Shadow
+    private int fuel;
+    private static final float EMISSIONS_PER_SECOND = 1.4F;
 
     // Dummy constructor to make compiler happy: will never be called
     // Subclassing AbstractMinecart is necessary to call this.blockPosition(), this.getLevel(), etc.
@@ -23,11 +24,9 @@ public abstract class MinecartFurnaceMixin extends AbstractMinecart {
 
     @Inject(method = "tick", at = @At("RETURN"))
     public void tick(CallbackInfo ignoredUnused) {
-        if (!this.getLevel().isClientSide() && this.hasFuel() && ++counter > 40) {
+        if (!this.getLevel().isClientSide() && this.hasFuel() && this.fuel % 20 == 0) {
             EmissionManager manager = EmissionManager.get(this.getLevel());
-            manager.increaseEmissions(this.blockPosition(), EMISSIONS);
-            // reset counter
-            counter = 0;
+            manager.increaseEmissions(this.blockPosition(), EMISSIONS_PER_SECOND);
         }
     }
 
