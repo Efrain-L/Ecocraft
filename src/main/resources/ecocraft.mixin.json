@@ -11,7 +11,8 @@
     "IceMixin",
     "LeavesMixin",
     "MinecartFurnaceMixin",
-    "MobMixin"
+    "MobMixin",
+    "FishingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
