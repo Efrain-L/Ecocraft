@@ -1,6 +1,9 @@
 package net.syn100.ecocraft.emissionsystem.data;
 
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.server.command.ConfigCommand;
+import net.syn100.ecocraft.commands.AddEmissionCommand;
 
 public class EmissionEvents {
     /**
@@ -17,5 +20,9 @@ public class EmissionEvents {
         }
         EmissionManager manager = EmissionManager.get(event.level);
         manager.tick(event.level);
+    }
+    public static void onCommandsRegister(RegisterCommandsEvent event) {
+        new AddEmissionCommand(event.getDispatcher());
+        ConfigCommand.register(event.getDispatcher());
     }
 }

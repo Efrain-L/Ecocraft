@@ -13,6 +13,7 @@ public class ModSetup {
     public static void setup() {
         IEventBus bus = MinecraftForge.EVENT_BUS;
         bus.addListener(EmissionEvents::onWorldTick);
+        bus.addListener(EmissionEvents::onCommandsRegister);
         bus.addListener(PollutionEvents::onWorldTick);
     }
 
