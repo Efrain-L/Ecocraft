@@ -59,10 +59,11 @@ public class EmissionManager extends SavedData {
             emissions.setEmissions(currentEmissions - remove);
             // Set dirty is needed to save changes to the chunk
             setDirty();
-            return 1;
         } else {
-            return 0;
+            emissions.setEmissions(0);
+            setDirty();
         }
+        return 1;
     }
 
     /**
