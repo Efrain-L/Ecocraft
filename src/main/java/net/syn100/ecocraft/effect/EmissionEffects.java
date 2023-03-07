@@ -12,6 +12,10 @@ import java.util.List;
 
 public class EmissionEffects {
     private static final int EFFECT_DURATION = 100;
+    private static final int EFFECT_AMPLIFIER = 1;
+    private static final boolean EFFECT_AMBIENT = true;
+    private static final boolean EFFECT_VISIBLE = false;
+
     private static final float GOOD_AIR_QUALITY_THRESHOLD = 100f;
     private static final float LOW_AIR_QUALITY_THRESHOLD = 250f;
     private static final float POOR_AIR_QUALITY_THRESHOLD = 500f;
@@ -47,8 +51,8 @@ public class EmissionEffects {
                     float emissions = manager.getEmissions(entity.getOnPos());
                     // Apply negative effects
                     if (emissions > TOXIC_THRESHOLD) {
-                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, EFFECT_DURATION));
-                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.DARKNESS, EFFECT_DURATION));
+                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
+                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.DARKNESS, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                     }
                 }
             });
@@ -77,13 +81,13 @@ public class EmissionEffects {
                 EmissionManager manager = EmissionManager.get(level);
                 float emissions = manager.getEmissions(player.getOnPos());
                 if (emissions > TERRIBLE_AIR_QUALITY_THRESHOLD) {
-                    player.addEffect(new MobEffectInstance(MobEffects.UNLUCK, EFFECT_DURATION));
+                    player.addEffect(new MobEffectInstance(MobEffects.UNLUCK, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                 }
                 if (emissions > POOR_AIR_QUALITY_THRESHOLD) {
-                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, EFFECT_DURATION));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                 }
                 if (emissions > LOW_AIR_QUALITY_THRESHOLD) {
-                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, EFFECT_DURATION));
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                 }
             });
         }
@@ -100,7 +104,7 @@ public class EmissionEffects {
                 EmissionManager manager = EmissionManager.get(level);
                 float emissions = manager.getEmissions(player.getOnPos());
                 if (emissions < GOOD_AIR_QUALITY_THRESHOLD) {
-                    player.addEffect(new MobEffectInstance(MobEffects.LUCK, EFFECT_DURATION));
+                    player.addEffect(new MobEffectInstance(MobEffects.LUCK, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                 }
             });
         }
