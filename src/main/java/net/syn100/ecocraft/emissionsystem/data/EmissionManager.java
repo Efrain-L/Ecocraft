@@ -10,6 +10,7 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.syn100.ecocraft.effect.EmissionEffects;
 import net.syn100.ecocraft.emissionsystem.EmissionConfig;
 import net.syn100.ecocraft.emissionsystem.network.PacketSyncEmissionsToClient;
 import net.syn100.ecocraft.setup.Messages;
@@ -115,6 +116,7 @@ public class EmissionManager extends SavedData {
             BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0 ,chunkPos.getMiddleBlockZ());
             this.spreadEmissions(spreadPos);
         });
+        EmissionEffects.UpdateEffects((ServerLevel) level);
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
                 float chunkEmissions = getEmissions(serverPlayer.blockPosition());

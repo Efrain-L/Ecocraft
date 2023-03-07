@@ -19,7 +19,7 @@ public class CropGrowingEvents {
     /**
      * Method that listens to forge's CropGrowEvent.Pre, which fires
      * before a crop attempts to grow to its next stage
-     * @param event
+     * @param event The pre growing event
      */
     public static void onCropGrowth(BlockEvent.CropGrowEvent.Pre event) {
         // Getting level and BlockPos
