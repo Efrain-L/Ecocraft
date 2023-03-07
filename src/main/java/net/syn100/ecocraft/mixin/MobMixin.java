@@ -28,7 +28,9 @@ public abstract class MobMixin extends LivingEntity {
     // Emissions produced by a mob per second in kg.
     // To add an entity, use the ID and the emissions value as an entry.
     private static final Map<String, Float> EMISSIONS_VALUES = Map.ofEntries(
-            Map.entry("minecraft:cow", 0.048F)
+            Map.entry("minecraft:cow", 0.0001044F),
+            Map.entry("minecraft:pig",0.0001762F),
+            Map.entry("minecraft:sheep", 0.00001434F)
     );
 
     private static final float DEFAULT_EMISSIONS_VALUE = 0;
