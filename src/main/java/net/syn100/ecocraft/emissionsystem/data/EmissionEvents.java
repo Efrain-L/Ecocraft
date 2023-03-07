@@ -4,6 +4,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.server.command.ConfigCommand;
 import net.syn100.ecocraft.commands.AddEmissionCommand;
+import net.syn100.ecocraft.commands.EmissionSpreadingCommand;
 import net.syn100.ecocraft.commands.ReduceEmissionCommand;
 
 public class EmissionEvents {
@@ -25,6 +26,7 @@ public class EmissionEvents {
     public static void onCommandsRegister(RegisterCommandsEvent event) {
         new AddEmissionCommand(event.getDispatcher());
         new ReduceEmissionCommand(event.getDispatcher());
+        new EmissionSpreadingCommand(event.getDispatcher());
         ConfigCommand.register(event.getDispatcher());
     }
 }

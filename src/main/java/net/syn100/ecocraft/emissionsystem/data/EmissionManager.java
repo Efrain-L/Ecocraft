@@ -23,6 +23,7 @@ import java.util.Map;
 public class EmissionManager extends SavedData {
 
     private final Map<ChunkPos, Emissions> emissionsMap = new HashMap<>();
+    private boolean emissionSpreading = true;
 
     @Nonnull
     public static EmissionManager get(Level level) {
@@ -41,6 +42,11 @@ public class EmissionManager extends SavedData {
                 .computeIfAbsent(chunkPos, cp ->
                     new Emissions(EmissionConfig.CHUNK_MIN_EMISSIONS.get())
                 );
+    }
+
+    @Nonnull
+    private boolean getEmissionSpreading() {
+        return this.emissionSpreading;
     }
 
     public float getEmissions(BlockPos pos) {
@@ -82,6 +88,11 @@ public class EmissionManager extends SavedData {
         }
     }
 
+    public int setEmissionSpreading(boolean bool) {
+        this.emissionSpreading = bool;
+        return 1;
+    }
+
     public float spreadEmissions(BlockPos pos) {
         Emissions emissions = getEmissionsInternal(pos);
         // The spreading starts only when the emission in this chunk exceeds this minSpreadingLevel.
@@ -112,11 +123,13 @@ public class EmissionManager extends SavedData {
     }
 
     public void tick(Level level) {
-        ArrayList<ChunkPos> spreadChunkPos = new ArrayList<ChunkPos>(emissionsMap.keySet());
-        spreadChunkPos.forEach(chunkPos -> {
-            BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0 ,chunkPos.getMiddleBlockZ());
-            this.spreadEmissions(spreadPos);
-        });
+        if(getEmissionSpreading()) {
+            ArrayList<ChunkPos> spreadChunkPos = new ArrayList<ChunkPos>(emissionsMap.keySet());
+            spreadChunkPos.forEach(chunkPos -> {
+                BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0, chunkPos.getMiddleBlockZ());
+                this.spreadEmissions(spreadPos);
+            });
+        }
         EmissionEffects.UpdateEffects((ServerLevel) level);
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
