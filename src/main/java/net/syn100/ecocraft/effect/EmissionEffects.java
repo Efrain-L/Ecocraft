@@ -16,10 +16,9 @@ public class EmissionEffects {
     private static final boolean EFFECT_AMBIENT = true;
     private static final boolean EFFECT_VISIBLE = false;
 
-    private static final float GOOD_AIR_QUALITY_THRESHOLD = 100f;
-    private static final float LOW_AIR_QUALITY_THRESHOLD = 250f;
+    private static final float GOOD_AIR_QUALITY_THRESHOLD = 0f;
+    private static final float LOW_AIR_QUALITY_THRESHOLD = 100f;
     private static final float POOR_AIR_QUALITY_THRESHOLD = 500f;
-
     private static final float TERRIBLE_AIR_QUALITY_THRESHOLD = 750f;
     private static final float TOXIC_THRESHOLD = 1000f;
 

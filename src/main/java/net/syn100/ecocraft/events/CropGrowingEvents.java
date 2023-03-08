@@ -12,9 +12,9 @@ public class CropGrowingEvents {
     private static final float DEFAULT_CHANCE = 1.0f / 13.0f;
 
     // Arbitrary values for now
-    private static final float LOW_EMISSIONS_LEVEL = 1000f;
-    private static final float MEDIUM_EMISSIONS_LEVEL = 5000f;
-    private static final float HIGH_EMISSIONS_LEVEL = 10_000f;
+    private static final float LOW_EMISSIONS_LEVEL = 50f;
+    private static final float MEDIUM_EMISSIONS_LEVEL = 100f;
+    private static final float HIGH_EMISSIONS_LEVEL = 300f;
 
     /**
      * Method that listens to forge's CropGrowEvent.Pre, which fires

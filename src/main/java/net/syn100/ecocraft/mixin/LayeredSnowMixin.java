@@ -15,7 +15,7 @@ import static net.minecraft.world.level.block.Block.dropResources;
 
 @Mixin(SnowLayerBlock.class)
 public abstract class LayeredSnowMixin {
-    private static final int snowLayerMeltLevel = 1000;
+    private static final int snowLayerMeltLevel = 200;
 
     /**
      * Snow blocks will check the light level near them every tick, using this

@@ -12,8 +12,8 @@ public class EmissionsOverlay {
         int y = EmissionConfig.EMISSIONS_HUD_Y.get();
         int color = EmissionConfig.EMISSIONS_HUD_COLOR.get();
         int THRESHOLD_LOW = 0;      // emission level at which the color being most green
-        int THRESHOLD_MEDIUM = 64;  // emission level at which the color being most yellow
-        int THRESHOLD_HIGH = 128;   // emission level at which the color being most red
+        int THRESHOLD_MEDIUM = 300;  // emission level at which the color being most yellow
+        int THRESHOLD_HIGH = 500;   // emission level at which the color being most red
         int RGB_MAX = 255;
 
         if(color == 0xffffffff) { // only be effective when EMISSIONS_HUD_COLOR is in default value

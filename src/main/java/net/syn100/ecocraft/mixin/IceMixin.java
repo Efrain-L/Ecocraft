@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(IceBlock.class)
 public abstract class IceMixin {
-    private static final int iceMeltLevel = 1000;
+    private static final int iceMeltLevel = 200;
 
     /**
      * This will call the Ice block's melt method whenever the emissions level is
