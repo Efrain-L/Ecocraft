@@ -24,7 +24,7 @@ public abstract class CampfireMixin {
     private static void cookTick(Level p_155307_, BlockPos p_155308_, BlockState p_155309_, CampfireBlockEntity p_155310_, CallbackInfo info) {
         if (++counter > 20) {
             EmissionManager manager = EmissionManager.get(p_155307_);
-            manager.increaseEmissions(p_155308_, 1);
+            manager.increaseEmissions(p_155308_, 4.1F);
             counter = 0;
         }
     }
