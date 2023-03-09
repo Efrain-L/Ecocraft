@@ -24,7 +24,7 @@ import java.util.Set;
 public class EmissionManager extends SavedData {
 
     private final Map<ChunkPos, Emissions> emissionsMap = new HashMap<>();
-    private boolean emissionSpreading = true;
+    private boolean emissionSpreading = false; // DEBUG: just for demo purposes, default to false
 
     @Nonnull
     public static EmissionManager get(Level level) {
