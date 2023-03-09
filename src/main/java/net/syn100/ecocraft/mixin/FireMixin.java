@@ -23,9 +23,9 @@ public abstract class FireMixin {
      * emissions every game tick, and not just when placed.
      */
     @Inject(method = "tick", at = @At(value = "HEAD"))
-    public void tick(BlockState p_221160_, ServerLevel p_221161_, BlockPos p_221162_, RandomSource p_221163_, CallbackInfo info) {
-        EmissionManager manager = EmissionManager.get(p_221161_);
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info) {
+        EmissionManager manager = EmissionManager.get(pLevel);
         // Random increase from 12-16 for kg
-        manager.increaseEmissions(p_221162_, (float)(12+Math.random()*5));
+        manager.increaseEmissions(pPos, (float)(12+Math.random()*5));
     }
 }

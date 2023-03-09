@@ -39,8 +39,8 @@ public abstract class MobMixin extends LivingEntity {
     @Shadow
     private ResourceLocation lootTable;
 
-    protected MobMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
-        super(p_20966_, p_20967_);
+    protected MobMixin(EntityType<? extends LivingEntity> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
     @SuppressWarnings("ConstantValue")

@@ -22,10 +22,10 @@ public abstract class IceMixin {
      * above a certain point.
      */
     @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState p_221355_, ServerLevel p_221356_, BlockPos p_221357_, RandomSource p_221358_, CallbackInfo info) {
-        EmissionManager manager = EmissionManager.get(p_221356_);
-        if (manager.getEmissions(p_221357_) > iceMeltLevel) {
-            this.melt(p_221355_, p_221356_, p_221357_);
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info) {
+        EmissionManager manager = EmissionManager.get(pLevel);
+        if (manager.getEmissions(pPos) > iceMeltLevel) {
+            this.melt(pState, pLevel, pPos);
         }
     }
 

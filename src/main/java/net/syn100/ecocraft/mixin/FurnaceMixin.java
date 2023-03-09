@@ -102,7 +102,7 @@ public abstract class FurnaceMixin implements IFurnaceMixin {
      * Used access transformer to get the .isLit() method to check if a furnace is burning something.
      */
     @Inject(method = "serverTick", at = @At("RETURN"))
-    private static void serverTickReturn(Level p_155014_, BlockPos p_155015_, BlockState p_155016_, AbstractFurnaceBlockEntity abstractFurnace, CallbackInfo info) {
+    private static void serverTickReturn(Level pLevel, BlockPos pPos, BlockState pState, AbstractFurnaceBlockEntity abstractFurnace, CallbackInfo info) {
         IFurnaceMixin furnace = (IFurnaceMixin) abstractFurnace;
         // Check whether fuel changes
         ItemStack fuelStack = abstractFurnace.getItem(1);
@@ -121,8 +121,8 @@ public abstract class FurnaceMixin implements IFurnaceMixin {
         // use litTime modulo 20 to get a rough per-furnace counter that fires every 20 ticks
         if ( abstractFurnace.isLit() && furnace.getLitTime() % 20 == 0) {
             System.out.println("Increasing emissions for fuel: " + furnace.getCurrentFuel());
-            EmissionManager manager = EmissionManager.get(p_155014_);
-            manager.increaseEmissions(p_155015_, getEmissions(furnace.getCurrentFuel()));
+            EmissionManager manager = EmissionManager.get(pLevel);
+            manager.increaseEmissions(pPos, getEmissions(furnace.getCurrentFuel()));
         }
     }
 }

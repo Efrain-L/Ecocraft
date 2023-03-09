@@ -23,12 +23,12 @@ public abstract class LayeredSnowMixin {
      * emissions level is higher than some set level.
      */
     @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState p_222448_, ServerLevel p_222449_, BlockPos p_222450_, RandomSource p_222451_, CallbackInfo info) {
-        EmissionManager manager = EmissionManager.get(p_222449_);
-        if (manager.getEmissions(p_222450_) > snowLayerMeltLevel) {
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info) {
+        EmissionManager manager = EmissionManager.get(pLevel);
+        if (manager.getEmissions(pPos) > snowLayerMeltLevel) {
             // Code from the original method which will remove the snow layer
-            dropResources(p_222448_, p_222449_, p_222450_);
-            p_222449_.removeBlock(p_222450_, false);
+            dropResources(pState, pLevel, pPos);
+            pLevel.removeBlock(pPos, false);
         }
     }
 }

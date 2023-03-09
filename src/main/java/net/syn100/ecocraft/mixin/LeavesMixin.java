@@ -5,9 +5,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.syn100.ecocraft.emissionsystem.data.EmissionManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -25,20 +22,20 @@ public abstract class LeavesMixin {
     private static int decCO2Counter = 0;
 
     @Inject(method = "randomTick", at = @At("HEAD"))
-    public void randomTick(BlockState p_221379_, ServerLevel p_221380_, BlockPos p_221381_, RandomSource p_221382_, CallbackInfo info) {
-        EmissionManager manager = EmissionManager.get(p_221380_);
+    public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info) {
+        EmissionManager manager = EmissionManager.get(pLevel);
 
-        if (++decCO2Counter > 40 && manager.getEmissions(p_221381_) >= 0) {
-            manager.decreaseEmissions(p_221381_, 1);
+        if (++decCO2Counter > 40 && manager.getEmissions(pPos) >= 0) {
+            manager.decreaseEmissions(pPos, 1);
             decCO2Counter = 0;
         }
     }
     @Inject(method = "tick", at = @At("HEAD"))
-    public void tick(BlockState p_221369_, ServerLevel p_221370_, BlockPos p_221371_, RandomSource p_221372_, CallbackInfo info){
-    EmissionManager manager = EmissionManager.get(p_221370_);
+    public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info){
+    EmissionManager manager = EmissionManager.get(pLevel);
 
-        if (++counterForRemove > 40 && decaying(p_221369_)) {
-            manager.increaseEmissions(p_221371_, 1);
+        if (++counterForRemove > 40 && decaying(pState)) {
+            manager.increaseEmissions(pPos, 1);
             counterForRemove = 0;
         }
     }
@@ -53,7 +50,7 @@ public abstract class LeavesMixin {
      * @reason Because I need randomlyTicking check all the time
      */
     @Overwrite
-    public boolean isRandomlyTicking(BlockState p_54449_) {
+    public boolean isRandomlyTicking(BlockState pState) {
         return true;
     }
 

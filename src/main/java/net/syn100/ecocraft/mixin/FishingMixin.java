@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
 public abstract class FishingMixin extends Projectile {
 
     private static final float DANGER_THRESHOLD = 500.0f;
-    protected FishingMixin(EntityType<? extends Projectile> p_37248_, Level p_37249_) {
-        super(p_37248_, p_37249_);
+    protected FishingMixin(EntityType<? extends Projectile> pEntityType, Level pLevel) {
+        super(pEntityType, pLevel);
     }
 
     @Shadow
@@ -50,7 +50,7 @@ public abstract class FishingMixin extends Projectile {
     private Entity hookedIn;
 
     @Shadow
-    protected abstract void pullEntity(Entity p_150156_);
+    protected abstract void pullEntity(Entity pEntity);
     @Nullable
     @Shadow
     private int luck;
@@ -64,18 +64,18 @@ public abstract class FishingMixin extends Projectile {
      * @reason
      */
     @Overwrite
-    public int retrieve(ItemStack p_37157_) {
+    public int retrieve(ItemStack pStack) {
         Player player = this.getPlayerOwner();
         if (!this.level.isClientSide && player != null && !this.shouldStopFishing(player)) {
             int i = 0;
             net.minecraftforge.event.entity.player.ItemFishedEvent event = null;
             if (this.hookedIn != null) {
                 this.pullEntity(this.hookedIn);
-                CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, p_37157_, (FishingHook)(Object)this, Collections.emptyList());
+                CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, pStack, (FishingHook)(Object)this, Collections.emptyList());
                 this.level.broadcastEntityEvent((FishingHook)(Object)this, (byte)31);
                 i = this.hookedIn instanceof ItemEntity ? 3 : 5;
             } else if (this.nibble > 0) {
-                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, this.position()).withParameter(LootContextParams.TOOL, p_37157_).withParameter(LootContextParams.THIS_ENTITY, this).withRandom(this.random).withLuck((float)this.luck + player.getLuck());
+                LootContext.Builder lootcontext$builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, this.position()).withParameter(LootContextParams.TOOL, pStack).withParameter(LootContextParams.THIS_ENTITY, this).withRandom(this.random).withLuck((float)this.luck + player.getLuck());
                 lootcontext$builder.withParameter(LootContextParams.KILLER_ENTITY, this.getOwner()).withParameter(LootContextParams.THIS_ENTITY, (FishingHook)(Object)this);
 
                 EmissionManager manager = EmissionManager.get(this.getLevel());
@@ -109,7 +109,7 @@ public abstract class FishingMixin extends Projectile {
                     this.discard();
                     return event.getRodDamage();
                 }
-                CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, p_37157_, (FishingHook)(Object)this, list);
+                CriteriaTriggers.FISHING_ROD_HOOKED.trigger((ServerPlayer)player, pStack, (FishingHook)(Object)this, list);
 
                 for(ItemStack itemstack : list) {
                     ItemEntity itementity = new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), itemstack);

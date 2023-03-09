@@ -21,10 +21,10 @@ public abstract class CampfireMixin {
      * Injecting into this method that is called every tick when a campfire is lit
      */
     @Inject(method = "cookTick", at = @At(value = "HEAD"))
-    private static void cookTick(Level p_155307_, BlockPos p_155308_, BlockState p_155309_, CampfireBlockEntity p_155310_, CallbackInfo info) {
+    private static void cookTick(Level pLevel, BlockPos pPos, BlockState pState, CampfireBlockEntity pBlockEntity, CallbackInfo info) {
         if (++counter > 20) {
-            EmissionManager manager = EmissionManager.get(p_155307_);
-            manager.increaseEmissions(p_155308_, 4.1F);
+            EmissionManager manager = EmissionManager.get(pLevel);
+            manager.increaseEmissions(pPos, 4.1F);
             counter = 0;
         }
     }
