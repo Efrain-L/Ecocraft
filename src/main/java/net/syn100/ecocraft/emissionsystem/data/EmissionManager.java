@@ -62,14 +62,9 @@ public class EmissionManager extends SavedData {
     public float decreaseEmissions(BlockPos pos, float remove) {
         Emissions emissions = getEmissionsInternal(pos);
         float currentEmissions = emissions.getEmissions();
-        if (currentEmissions - remove >= 0) {
-            emissions.setEmissions(currentEmissions - remove);
-            // Set dirty is needed to save changes to the chunk
-            setDirty();
-        } else {
-            emissions.setEmissions(0);
-            setDirty();
-        }
+        emissions.setEmissions(currentEmissions - remove);
+        // Set dirty is needed to save changes to the chunk
+        setDirty();
         return 1;
     }
 
@@ -79,14 +74,10 @@ public class EmissionManager extends SavedData {
     public float increaseEmissions(BlockPos pos, float add) {
         Emissions emissions = getEmissionsInternal(pos);
         float currentEmissions = emissions.getEmissions();
-        if (currentEmissions >= 0) {
             emissions.setEmissions(currentEmissions + add);
             // Set dirty is needed to save changes to the chunk
             setDirty();
             return 1;
-        } else {
-            return 0;
-        }
     }
 
     public int setEmissionSpreading(boolean bool) {
