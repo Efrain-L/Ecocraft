@@ -1,26 +1,29 @@
 package net.syn100.ecocraft.effect;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.syn100.ecocraft.emissionsystem.data.EmissionManager;
 
 import java.util.List;
 
 public class EmissionEffects {
     private static final int EFFECT_DURATION = 100;
-    private static final int EFFECT_AMPLIFIER = 1;
-    private static final boolean EFFECT_AMBIENT = true;
+    private static final int EFFECT_AMPLIFIER = 0;
+    private static final boolean EFFECT_AMBIENT = false;
     private static final boolean EFFECT_VISIBLE = false;
 
     private static final float GOOD_AIR_QUALITY_THRESHOLD = 0f;
     private static final float LOW_AIR_QUALITY_THRESHOLD = 100f;
     private static final float POOR_AIR_QUALITY_THRESHOLD = 500f;
     private static final float TERRIBLE_AIR_QUALITY_THRESHOLD = 750f;
-    private static final float TOXIC_THRESHOLD = 1000f;
+    private static final float TOXIC_AIR_THRESHOLD = 1000f;
 
     /**
      * This method is meant to be used elsewhere, and will call each of the
@@ -33,6 +36,16 @@ public class EmissionEffects {
         UpdatePositiveMobEffects(level);
         UpdateNegativePlayerEffects(level);
         UpdatePositivePlayerEffects(level);
+    }
+
+    public static void UpdateAshEffects(ServerLevel level, BlockPos position) {
+        EmissionManager manager = EmissionManager.get(level);
+        float emissions = manager.getEmissions(position);
+        if (emissions > TOXIC_AIR_THRESHOLD) {
+            level.sendParticles(ParticleTypes.ASH,
+                            position.getX(), 70, position.getZ(),
+                            50, 2, 64, 2, 1);
+        }
     }
 
     /**
@@ -49,8 +62,8 @@ public class EmissionEffects {
                     EmissionManager manager = EmissionManager.get(level);
                     float emissions = manager.getEmissions(entity.getOnPos());
                     // Apply negative effects
-                    if (emissions > TOXIC_THRESHOLD) {
-                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.POISON, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
+                    if (emissions > TOXIC_AIR_THRESHOLD) {
+                        ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, EFFECT_DURATION, 1+EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                         ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.DARKNESS, EFFECT_DURATION, EFFECT_AMPLIFIER, EFFECT_AMBIENT, EFFECT_VISIBLE));
                     }
                 }

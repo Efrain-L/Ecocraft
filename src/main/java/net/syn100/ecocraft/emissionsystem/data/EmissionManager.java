@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class EmissionManager extends SavedData {
 
@@ -123,20 +124,25 @@ public class EmissionManager extends SavedData {
     }
 
     public void tick(Level level) {
+        // Spreading logic
         if(getEmissionSpreading()) {
-            ArrayList<ChunkPos> spreadChunkPos = new ArrayList<ChunkPos>(emissionsMap.keySet());
+            ArrayList<ChunkPos> spreadChunkPos = new ArrayList<>(emissionsMap.keySet());
             spreadChunkPos.forEach(chunkPos -> {
                 BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0, chunkPos.getMiddleBlockZ());
                 this.spreadEmissions(spreadPos);
+                // Adding ash particles
+                EmissionEffects.UpdateAshEffects((ServerLevel) level, spreadPos);
             });
         }
-        EmissionEffects.UpdateEffects((ServerLevel) level);
+        // Send emission info to client for updating GUI
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
                 float chunkEmissions = getEmissions(serverPlayer.blockPosition());
                 Messages.sendToPlayer(new PacketSyncEmissionsToClient(chunkEmissions), serverPlayer);
             }
         });
+        // Update potion effects for entities
+        EmissionEffects.UpdateEffects((ServerLevel) level);
     }
 
     public EmissionManager() {
