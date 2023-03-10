@@ -8,7 +8,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import net.syn100.ecocraft.emissionsystem.data.EmissionManager;
 
 import java.util.List;
@@ -42,9 +41,16 @@ public class EmissionEffects {
         EmissionManager manager = EmissionManager.get(level);
         float emissions = manager.getEmissions(position);
         if (emissions > TOXIC_AIR_THRESHOLD) {
+            // Spawn particles up to world height
             level.sendParticles(ParticleTypes.ASH,
-                            position.getX(), 70, position.getZ(),
-                            50, 2, 64, 2, 1);
+                    position.getX(), position.getY(), position.getZ(),
+                    200, 4, 128, 4, 1);
+            level.sendParticles(ParticleTypes.ASH,
+                    position.getX(), position.getY() + 80, position.getZ(),
+                    200, 4, 128, 4, 1);
+            level.sendParticles(ParticleTypes.ASH,
+                    position.getX(), position.getY() + 160, position.getZ(),
+                    200, 4, 128, 4, 1);
         }
     }
 
