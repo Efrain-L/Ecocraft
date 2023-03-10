@@ -16,15 +16,13 @@ import net.syn100.ecocraft.emissionsystem.network.PacketSyncEmissionsToClient;
 import net.syn100.ecocraft.setup.Messages;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class EmissionManager extends SavedData {
 
     private final Map<ChunkPos, Emissions> emissionsMap = new HashMap<>();
-    private boolean emissionSpreading = false; // DEBUG: just for demo purposes, default to false
+    private boolean emissionSpreading = false;
 
     @Nonnull
     public static EmissionManager get(Level level) {
@@ -115,16 +113,15 @@ public class EmissionManager extends SavedData {
     }
 
     public void tick(Level level) {
-        // Spreading logic
-        if(getEmissionSpreading()) {
-            ArrayList<ChunkPos> spreadChunkPos = new ArrayList<>(emissionsMap.keySet());
-            spreadChunkPos.forEach(chunkPos -> {
-                BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0, chunkPos.getMiddleBlockZ());
+        // Spreading & Ash functionality
+        emissionsMap.keySet().stream().toList().forEach(chunkPos -> {
+            BlockPos spreadPos = new BlockPos(chunkPos.getMiddleBlockX(), 0, chunkPos.getMiddleBlockZ());
+            // Adding ash particles
+            EmissionEffects.UpdateAshEffects((ServerLevel) level, spreadPos);
+            if (getEmissionSpreading()) {
                 this.spreadEmissions(spreadPos);
-                // Adding ash particles
-                EmissionEffects.UpdateAshEffects((ServerLevel) level, spreadPos);
-            });
-        }
+            }
+        });
         // Send emission info to client for updating GUI
         level.players().forEach(player -> {
             if (player instanceof ServerPlayer serverPlayer) {
