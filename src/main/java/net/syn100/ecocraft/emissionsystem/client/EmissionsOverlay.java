@@ -7,7 +7,7 @@ import net.syn100.ecocraft.emissionsystem.EmissionConfig;
 public class EmissionsOverlay {
     public static final IGuiOverlay HUD_EMISSIONS = (gui, poseStack, partialTicks, width, height) -> {
         float currentEmission = ClientEmissionData.getChunkEmissions();
-        String toDisplay = "Emissions: " + String.format("%.2f", currentEmission) + " kg";
+        String toDisplay = "Emissions: " + String.format("%.4f", currentEmission) + " kg";
         int x = EmissionConfig.EMISSIONS_HUD_X.get();
         int y = EmissionConfig.EMISSIONS_HUD_Y.get();
         int color = EmissionConfig.EMISSIONS_HUD_COLOR.get();

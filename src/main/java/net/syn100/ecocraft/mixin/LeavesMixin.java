@@ -25,8 +25,8 @@ public abstract class LeavesMixin {
     public void randomTick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info) {
         EmissionManager manager = EmissionManager.get(pLevel);
 
-        if (++decCO2Counter > 40 && manager.getEmissions(pPos) >= 0) {
-            manager.decreaseEmissions(pPos, 1);
+        if (++decCO2Counter > 10) {
+            manager.decreaseEmissions(pPos, .000010787f);
             decCO2Counter = 0;
         }
     }
@@ -34,8 +34,8 @@ public abstract class LeavesMixin {
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom, CallbackInfo info){
     EmissionManager manager = EmissionManager.get(pLevel);
 
-        if (++counterForRemove > 40 && decaying(pState)) {
-            manager.increaseEmissions(pPos, 1);
+        if (decaying(pState)) {
+            manager.increaseEmissions(pPos, 1.3034234f);
             counterForRemove = 0;
         }
     }
